@@ -1,65 +1,34 @@
 #include <iostream>
 #include <algorithm>
+#include <cmath>
 using namespace std;
 
-int n, m, cnt_2 = 0, cnt_5 = 0;
+int n, m;
+
+int num_cnt(int num, int obj) {
+	int cnt = 0, index = 0;
+	while (!(num % obj == 0))
+		num--;
+	if (num != 0) 
+		while (!(num >= pow(obj, index) && num < pow(obj, index + 1)))
+			index++;
+	
+	for (int i = 1; i <= index; i++) {
+		int r = pow(obj, i);
+		cnt += num / r;
+	}
+
+	return cnt;
+}
 
 int main() {
+	int a, b, c;
 	cin >> n >> m;
 
-	for (int i = 1; i <= n; i++) {
-		int num = i;
-		while (1) {
-			if (num % 2 == 0) {
-				cnt_2++;
-				num /= 2;
-				continue;
-			}
-			else if (num % 5 == 0) {
-				cnt_5++;
-				num /= 5;
-				continue;
-			}
-			else
-				break;
-		}
-	}
-	for (int i = 1; i <= m; i++) {
-		int num = i;
-		while (1) {
-			if (num % 2 == 0) {
-				cnt_2--;
-				num /= 2;
-				continue;
-			}
-			else if (num % 5 == 0) {
-				cnt_5--;
-				num /= 5;
-				continue;
-			}
-			else
-				break;
-		}
-	}
-	for (int i = 1; i <= n - m; i++) {
-		int num = i;
-		while (1) {
-			if (num % 2 == 0) {
-				cnt_2--;
-				num /= 2;
-				continue;
-			}
-			else if (num % 5 == 0) {
-				cnt_5--;
-				num /= 5;
-				continue;
-			}
-			else
-				break;
-		}
-	}
-
-	cout << min(cnt_2, cnt_5) << '\n';
+	a = num_cnt(n, 2);
+	b = num_cnt(n - m, 2);
+	c = num_cnt(m, 2);
+	cout << min(num_cnt(n, 2) - num_cnt(n - m, 2) - num_cnt(m, 2), num_cnt(n, 5) - num_cnt(n - m, 5) - num_cnt(m, 5)) << '\n';
 	
 	return 0;
 }
