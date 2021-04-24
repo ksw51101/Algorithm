@@ -24,6 +24,7 @@ bool check(int x, int y) {
 	else {
 		map[pos.back().first][pos.back().second] = 1;
 		map[x][y] = 2;
+		pos.push({ x, y });
 		map[pos.front().first][pos.front().second] = 0;
 		pos.pop();
 	}
@@ -32,9 +33,9 @@ bool check(int x, int y) {
 
 int start(int x, int y) {
 	int time = 0;
+	pos.push({ x, y });
 	while (1) {
-		pos.push({ x, y });
-		if (time == q.front().first) {
+		if (!q.empty() && time == q.front().first) {
 			if (q.front().second == 'L') {
 				dir++;
 				if (dir == 4)
@@ -51,22 +52,22 @@ int start(int x, int y) {
 		case 0:
 			y++;
 			if (!check(x, y))
-				return time;
+				return time + 1;
 			break;
 		case 1:
 			x--;
 			if (!check(x, y))
-				return time;
+				return time + 1;
 			break;
 		case 2:
 			y--;
 			if (!check(x, y))
-				return time;
+				return time + 1;
 			break;
 		case 3:
 			x++;
 			if (!check(x, y))
-				return time;
+				return time + 1;
 			break;
 		}
 		time++;
