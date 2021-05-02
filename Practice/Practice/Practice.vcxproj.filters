@@ -132,7 +132,10 @@
     <ClCompile Include="12-7.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="12-8.cpp">
+    <ClCompile Include="13-1.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="13-2.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
