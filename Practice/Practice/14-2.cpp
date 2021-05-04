@@ -14,10 +14,7 @@ int main() {
 		vec.push_back(pos);
 	}
 	sort(vec.begin(), vec.end());
-	if (n % 2 == 1)
-		cout << vec[n % 2] << '\n';
-	else
-		cout << vec[(n - 1) % 2] << '\n';
+	cout << vec[(n - 1) % 2] << '\n';
 
 	return 0;
 }
