@@ -17,12 +17,11 @@ int main() {
 	vector<int>::iterator upper = upper_bound(vec.begin(), vec.end(), x);
 	vector<int>::iterator lower = lower_bound(vec.begin(), vec.end(), x);
 
-	cout << upper - vec.begin();
-	/*int ans = upper - lower;
+	int ans = upper - lower;
 	if (ans == 0)
 		cout << -1 << '\n';
 	else
-		cout << ans << '\n';*/
+		cout << ans << '\n';
 
 	return 0;
 }
