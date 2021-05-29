@@ -4,6 +4,7 @@ using namespace std;
 typedef long long ll;
 typedef vector<vector<ll>> matrix;
 
+// matrix끼리 곱셈을 위한 연산자 오버라이딩
 matrix operator *(const matrix &a, const matrix &b) {
 	ll size = a.size();
 	matrix temp(size, vector<ll>(size));
@@ -16,6 +17,7 @@ matrix operator *(const matrix &a, const matrix &b) {
 	return temp;
 }
 
+// a의 n제곱을 구하는 함수
 matrix power(matrix a, ll n) {
 	ll size = a.size();
 	matrix temp(size, vector<ll>(size));
