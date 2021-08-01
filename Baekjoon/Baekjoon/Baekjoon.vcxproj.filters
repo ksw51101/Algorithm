@@ -84,5 +84,14 @@
     <ClCompile Include="1063.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="1064.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="1065.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="1067.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
