@@ -1,62 +1,85 @@
-#include <string>
+#include <iostream>
 #include <vector>
 #include <algorithm>
-#include <iostream>
 using namespace std;
+#define INF 987654321
 
-int maximum;
-bool winner = false;
-int dx[] = { 0, 0, 1, -1 };
-int dy[] = { 1, -1, 0, 0 };
+int n, p, ans = INF;
+int d[1 << 16];
+vector<vector<int>> vec;
 
-void DFS(vector<vector<int>> board, vector<int> aloc, vector<int> bloc, int cnt, bool turn) {
-	if (aloc[0] < 0 || aloc[0] > 2 || aloc[1] < 0 || aloc[1]>2 || board[aloc[0]][aloc[1]] == 0) {
-		if (winner)
-			maximum = max(maximum, cnt);
-		return;
-	}
-	if (bloc[0] < 0 || bloc[0] > 2 || bloc[1] < 0 || bloc[1]>2 || board[bloc[0]][bloc[1]] == 0) {
-		if (!winner)
-			maximum = max(maximum, cnt);
-		return;
-	}
-	for (int i = 0; i < 4; i++) {
-		if (!turn) {
-			board[aloc[0]][aloc[1]] = 0;
-			aloc[0] += dx[i];
-			aloc[1] += dy[i];
-			DFS(board, aloc, bloc, cnt + 1, true);
-			aloc[0] -= dx[i];
-			aloc[1] -= dy[i];
-		}
-		else {
-			board[bloc[0]][bloc[1]] = 0;
-			bloc[0] += dx[i];
-			bloc[1] += dy[i];
-			DFS(board, aloc, bloc, cnt + 1, false);
-			bloc[0] -= dx[i];
-			bloc[1] -= dy[i];
+int minCost(int num1, int num2) {
+	int cost = 51;
+
+	for (int i = 0; i < n; i++) {
+		if ((1 << i) & num1) {
+			cost = min(cost, vec[i][num2]);
 		}
 	}
+	return cost;
 }
 
-int solution(vector<vector<int>> board, vector<int> aloc, vector<int> bloc) {
-	int answer = -1;
-	DFS(board, aloc, bloc, 0, false);
-	int a = maximum;
-	winner = true;
-	maximum = 0;
-	DFS(board, aloc, bloc, 0, false);
-	int b = maximum;
-	answer = maximum;
-	return answer;
+int bit_Count(int B)
+{
+	int Cnt = 0;
+	while (B != 0)
+	{
+		Cnt = Cnt + (B & 1);
+		B = B >> 1;
+	}
+	return Cnt;
+}
+
+
+void DFS(int s) {
+	if (d[s] > ans) return;
+	if (bit_Count(s) >= p) {
+		ans = min(ans, d[s]);
+		return;
+	}
+	for (int i = 0; i < n; i++) {
+		if (!((1 << i) & s) && d[s | (1 << i)] > d[s] + minCost(s, i)) {
+			int ns = s | (1 << i);
+			d[ns] = min(d[ns], d[s] + minCost(s, i));
+			DFS(ns);
+		}
+	}
 }
 
 int main() {
-	vector<vector<int>> board = { {1, 1, 1}, {1, 1, 1}, {1, 1, 1} };
-	vector<int> aloc = { 1, 0 };
-	vector<int> bloc = { 1, 2 };
-	cout << solution(board, aloc, bloc);
+	ios::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+
+	cin >> n;
+	fill(&d[0], &d[1 << 16], INF);
+
+	for (int i = 0; i < n; i++) {
+		vector<int> temp(n);
+		for (int j = 0; j < n; j++) {
+			cin >> temp[j];
+		}
+		vec.push_back(temp);
+	}
+	int state = 0, cnt = 0;
+	for (int i = 0; i < n; i++) {
+		char temp;
+		cin >> temp;
+		if (temp == 'Y') {
+			state = state | (1 << i);
+			cnt++;
+		}
+	}
+	d[state] = 0;
+	cin >> p;
+
+	if (!cnt && p != 0)
+		ans = -1;
+	else
+		DFS(state);
+
+	cout << ans << '\n';
 
 	return 0;
 }
