@@ -2,84 +2,50 @@
 #include <vector>
 #include <algorithm>
 using namespace std;
-#define INF 987654321
 
-int n, p, ans = INF;
-int d[1 << 16];
-vector<vector<int>> vec;
+int arr[10][10], n;
+bool visited[10][10];
 
-int minCost(int num1, int num2) {
-	int cost = 51;
+int dx[] = { 1, -1, 0, 0 };
+int dy[] = { 0, 0, 1, -1 };
+int max_size;
+vector<int> s;
 
-	for (int i = 0; i < n; i++) {
-		if ((1 << i) & num1) {
-			cost = min(cost, vec[i][num2]);
-		}
-	}
-	return cost;
-}
-
-int bit_Count(int B)
-{
-	int Cnt = 0;
-	while (B != 0)
-	{
-		Cnt = Cnt + (B & 1);
-		B = B >> 1;
-	}
-	return Cnt;
-}
-
-
-void DFS(int s) {
-	if (d[s] > ans) return;
-	if (bit_Count(s) >= p) {
-		ans = min(ans, d[s]);
+void solution(int x, int y) {
+	if (visited[x][y] || !arr[x][y] || x < 0 || y < 0 || x >= n || y >= n) {
 		return;
 	}
-	for (int i = 0; i < n; i++) {
-		if (!((1 << i) & s) && d[s | (1 << i)] > d[s] + minCost(s, i)) {
-			int ns = s | (1 << i);
-			d[ns] = min(d[ns], d[s] + minCost(s, i));
-			DFS(ns);
-		}
-	}
+	visited[x][y] = true;
+	max_size++;
+	for (int dir = 0; dir < 4; dir++)
+		solution(x + dx[dir], y + dy[dir]);
 }
 
 int main() {
-	ios::sync_with_stdio(false);
-	cin.tie(NULL);
-	cout.tie(NULL);
-
-
 	cin >> n;
-	fill(&d[0], &d[1 << 16], INF);
+
+	for (int i = 0; i < n; i++)
+		for (int j = 0; j < n; j++)
+			cin >> arr[i][j];
 
 	for (int i = 0; i < n; i++) {
-		vector<int> temp(n);
 		for (int j = 0; j < n; j++) {
-			cin >> temp[j];
-		}
-		vec.push_back(temp);
-	}
-	int state = 0, cnt = 0;
-	for (int i = 0; i < n; i++) {
-		char temp;
-		cin >> temp;
-		if (temp == 'Y') {
-			state = state | (1 << i);
-			cnt++;
+			if (arr[i][j] && !visited[i][j]) {
+				max_size = 0;
+				solution(i, j);
+				s.push_back(max_size);
+			}
 		}
 	}
-	d[state] = 0;
-	cin >> p;
+	sort(s.begin(), s.end());
 
-	if (!cnt && p != 0)
-		ans = -1;
-	else
-		DFS(state);
+	if (!s.size())
+		cout << 0 << '\n';
+	else {
+		cout << s.size() << '\n';
+		for (int i = 0; i < s.size(); i++)
+			cout << s[i] << ' ';
 
-	cout << ans << '\n';
-
+	}
 	return 0;
 }
