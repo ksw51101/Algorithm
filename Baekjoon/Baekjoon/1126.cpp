@@ -16,7 +16,7 @@ int main() {
 		m += temp;
 		vec.emplace_back(temp);
 	}
-	fill(&dp[0][0], &dp[49][500001], -1);
+	fill(&dp[0][0], &dp[50][500001], -1);
 
 	dp[0][0] = 0; // 안쌓았을 경우 최대높이는 0
 	dp[0][vec[0]] = vec[0]; // 첫 블록을 쌓으면 차이는 vec[0]이고 최대높이도 vec[0]
